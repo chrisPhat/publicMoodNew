@@ -73,26 +73,44 @@ function saveMood(mood){
 // I have put down some comments and stuff from what I could originally figure out about the process
 // but there is a fair chunk left to do, i think. I really appreciate you looking at it for me... 
 
-const colRef = collection(db, 'moods') 
-const q = query(colRef, orderBy('createdAt'))
+function getMoods(){
+
+    db.collection("moods") //needs a .where to only get posts from last 24 hours. use Javascript Data() to translate from seconds
+    .onSnapshot((querySnapshot) => {
+        var currentMoods = [];
+        querySnapshot.forEach((doc) => {
+            currentMoods.push(doc.data().emotion);
+        });
+        console.log(currentMoods); //find Javascript array method that will extract most common emotion
+    });
+
+    //this is not the proper way    
+    //      if(mostEmotion == 'love'){
+    //         loveSmiley.classlist.remove('hide');
+    //      }
+    // }
+    //The best is to use createElement, and dynaimcally create the HTML when it is required.
+
+getMoods();
+
 
 
 // get a snapshot of the data (from all time)
-onSnapshot(q, (snapshot) => {
-    let moods = [] //array for all data from all time
-    snapshot.docs.forEach((doc) => {
-        moods.push({ ...doc.data(), id:doc.id })
-    })
-    console.log(moods) // this isn't working yet
-})
+// onSnapshot(q, (snapshot) => {
+//     let moods = [] //array for all data from all time
+//     snapshot.docs.forEach((doc) => {
+//         moods.push({ ...doc.data(), id:doc.id })
+//     })
+//     console.log(moods) // this isn't working yet
+// })
 
-onSnapshot(q, (snapshot) => {
-    let recentMoods = [] //push data from last 3 hours only to this array
-    snapshot.docs.forEach((doc) => {
-        moods.push({ ...doc.data(), id:doc.id })
- }) 
-})
+// onSnapshot(q, (snapshot) => {
+//     let recentMoods = [] //push data from last 3 hours only to this array
+//     snapshot.docs.forEach((doc) => {
+//         moods.push({ ...doc.data(), id:doc.id })
+//  }) 
+// })
 
 // maybe need a for loop to look inside the array and count how many times each element appears???
 
-var currentMood //make this variable for when we find the most frequent element in the array
+ //make this variable for when we find the most frequent element in the array
